@@ -9,7 +9,9 @@ public class Program
         string myDocsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         string filePath = Path.Combine(myDocsPath, "conversation.json");
 
-        var client = new OpenAiClient("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");  // generated api key from https://platform.openai.com/account/api-keys
+        TextWriter _log = new StreamWriter($"{AppDomain.CurrentDomain.BaseDirectory}{DateTime.Now.ToString("yyyyMMdd")}.txt");
+
+        var client = new OpenAiClient("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");  // generated api key from https://platform.openai.com/account/api-keys
 
         while (true)
         {
@@ -27,18 +29,14 @@ public class Program
                 try
                 {
                     var response = await client.SendRequest(message, "gpt-3.5-turbo-0301");
-                    if (response.Contains("error"))
-                    {
-                        var errorMsg = JObject.Parse(response)?["error"]?["message"]?.ToString();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"Error message:{errorMsg}");
-                    }
-                    else
-                    {
-                        var answer = JObject.Parse(response)?["choices"]?[0]?["message"]?["content"]?.ToString();
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"Answer:{answer}");
-                    }
+
+                    _log.WriteLine($"{DateTime.Now.ToString("HH:mm:ss")}:{response}");
+                    _log.Close();
+
+                    var answer = JObject.Parse(response)?["choices"]?[0]?["message"]?["content"]?.ToString();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Answer:{answer}");
+
                 }
                 catch (Exception ex)
                 {
