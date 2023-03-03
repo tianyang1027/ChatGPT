@@ -36,8 +36,8 @@ public class Program
                     var answer = JObject.Parse(response)?["choices"]?[0]?["message"]?["content"]?.ToString();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Answer:{answer}");
-
                 }
+
                 catch (Exception ex)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
