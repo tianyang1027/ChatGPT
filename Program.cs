@@ -27,14 +27,23 @@ public class Program
                 try
                 {
                     var response = await client.SendRequest(message, "gpt-3.5-turbo-0301");
-                    var answer = JObject.Parse(response)?["choices"]?[0]?["message"]?["content"]?.ToString();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Answer:{answer}");
+                    if (response.Contains("error"))
+                    {
+                        var errorMsg = JObject.Parse(response)?["error"]?["message"]?.ToString();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Error message:{errorMsg}");
+                    }
+                    else
+                    {
+                        var answer = JObject.Parse(response)?["choices"]?[0]?["message"]?["content"]?.ToString();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Answer:{answer}");
+                    }
                 }
                 catch (Exception ex)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine($"Exception message:{ex.ToString()}");
                 }
             }
         }
