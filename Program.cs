@@ -11,7 +11,7 @@ public class Program
 
         TextWriter _log = new StreamWriter($"{AppDomain.CurrentDomain.BaseDirectory}{DateTime.Now.ToString("yyyyMMdd")}.txt");
 
-        var client = new OpenAiClient("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");  // generated api key from https://platform.openai.com/account/api-keys
+        var client = new OpenAiClient("=====API KEY======");  // generated api key from https://platform.openai.com/account/api-keys
 
         while (true)
         {
